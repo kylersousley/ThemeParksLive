@@ -14,7 +14,7 @@ export default function Index() {
         data={allParks}
         keyExtractor={(park) => park.id}
         renderItem={({ item }) => (
-          <Park parkName={item.name} parkCompany="Family Owned" />
+          <Park parkName={item.name} />
         )}
       />
     </SafeAreaView>
