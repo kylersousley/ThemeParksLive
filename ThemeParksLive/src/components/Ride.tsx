@@ -1,0 +1,61 @@
+import { StyleSheet, View, Pressable, Text } from 'react-native';
+import { useState, useEffect } from 'react';
+import IconButton from "@/components/IconButton";
+import { useRouter } from 'expo-router';
+
+type Props = {
+    rideName: String;
+    waitTime: String;
+    status: String;
+};
+
+export default function Park({rideName, waitTime, status}: Props) {
+
+    return (
+        <View style={styles.rideContainer}>
+            <View style={styles.labelContainer}>
+                <Text style={styles.nameText}>{rideName}</Text>
+                <Text style={[styles.statusText, status === "CLOSED" && styles.statusTextClosed]}>{status}</Text>
+            </View>
+            <View style={styles.waitTimeContainer}>
+                <Text style={styles.waitTimeText}>{waitTime}</Text>
+                {waitTime != null && <Text>minutes</Text>}
+            </View>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    rideContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottomWidth: 2,
+        borderColor: '#395B64',
+        borderStyle: 'solid',
+        width: '100%',
+        padding: 40,
+        paddingLeft: 10,
+    },
+    labelContainer: {
+        flex: 1,
+        paddingRight: 12,
+        gap: 15,
+    },
+    waitTimeContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    nameText: {
+        fontSize: 20,
+        color: '#395B64',
+    },
+    statusText: {
+        fontSize: 14,
+        color: '#115901',
+    },
+    statusTextClosed: {
+        fontSize: 14,
+        color: '#850101',
+    }
+});
