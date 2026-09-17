@@ -1,5 +1,4 @@
-import { StyleSheet, View, Pressable, Text } from 'react-native';
-import { useState, useEffect } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import IconButton from "@/components/IconButton";
 import { useRouter, router } from 'expo-router';
 
@@ -22,7 +21,7 @@ export default function Park({parkName, parkCompany}: Props) {
                 <Text style={styles.text}>{parkName}</Text>
             </View>
             <View style={styles.iconButtonContainer}>
-                <IconButton icon="arrow-forward" onPress={sendData} />
+                <IconButton icon="chevron-forward" onPress={sendData} />
             </View>
         </View>
     )
@@ -33,7 +32,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottomWidth: 2,
+        borderBottomWidth: 1,
+        borderTopWidth: 1,
         borderColor: '#395B64',
         borderStyle: 'solid',
         width: '100%',

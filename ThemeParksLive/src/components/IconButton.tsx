@@ -1,10 +1,8 @@
-import { View, Pressable, StyleSheet, Text } from 'react-native';
-import { useState, useEffect } from 'react';
-
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, Pressable, StyleSheet } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type Props = {
-    icon: keyof typeof MaterialIcons.glyphMap;
+    icon: keyof typeof Ionicons.glyphMap;
     onPress: () => void;
 };
 
@@ -13,7 +11,7 @@ export default function IconButton({icon, onPress}: Props) {
     return (
         <View style={styles.iconButtonContainer}>
             <Pressable onPress={onPress}>
-                <MaterialIcons name={icon} size={24} color={"#395B64"} />
+                <Ionicons name={icon} size={26} color={"#395B64"} />
             </Pressable>
         </View>
     );

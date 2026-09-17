@@ -1,7 +1,4 @@
-import { StyleSheet, View, Pressable, Text } from 'react-native';
-import { useState, useEffect } from 'react';
-import IconButton from "@/components/IconButton";
-import { useRouter } from 'expo-router';
+import { StyleSheet, View, Text } from 'react-native';
 
 type Props = {
     rideName: String;
@@ -30,7 +27,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottomWidth: 2,
+        borderBottomWidth: 1,
+        borderTopWidth: 1,
         borderColor: '#395B64',
         borderStyle: 'solid',
         width: '100%',

@@ -1,7 +1,4 @@
-import { StyleSheet, View, Pressable, Text } from 'react-native';
-import { useState, useEffect } from 'react';
-import IconButton from "@/components/IconButton";
-import { useRouter } from 'expo-router';
+import { StyleSheet, View, Text } from 'react-native';
 
 type Props = {
     parkName: String;
