@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text } from 'react-native';
 import IconButton from "@/components/IconButton";
 import { useRouter, router } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 
 type Props = {
     parkName: String;
@@ -10,6 +11,7 @@ type Props = {
 export default function Park({parkName, parkCompany}: Props) {
     const router = useRouter();
     const sendData = () => {
+    Haptics.selectionAsync()
     router.push({
       pathname: '/park-info',
       params: { park: parkName }

@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     gap: 50,
   },
   text: {
+    textAlign: 'center',
     fontSize: 16,
     padding: 10,
     borderRadius: 8,
