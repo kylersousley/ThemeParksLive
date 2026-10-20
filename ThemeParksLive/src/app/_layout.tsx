@@ -3,7 +3,7 @@ import { Stack } from "expo-router";
 export default function RootLayout() {
   return (
     <Stack screenOptions={{headerBackButtonDisplayMode: 'minimal'}}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false}} />
+      <Stack.Screen name="(tabs)" options={{ title: 'Theme Parks Live', headerStyle: { backgroundColor: '#2C3333'}, headerTintColor: '#ffffff', headerShadowVisible: false }} />
       <Stack.Screen name="park-info" options={{ title: 'Theme Parks Live', headerStyle: { backgroundColor: '#2C3333'}, headerTintColor: '#ffffff' }} />
     </Stack>
   )
