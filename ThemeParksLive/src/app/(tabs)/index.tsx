@@ -1,33 +1,46 @@
 import { Text, View, StyleSheet, FlatList, SafeAreaView, TextInput } from "react-native";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Park from "@/components/Park"
 import { parkBank } from "@/park-bank"
+import { getFavorites, saveFavorite, toggleFavorite } from '@/storage/favoriteStorage';
+import { useFocusEffect } from "expo-router";
+import { getAllParks, ParkData } from "@/api/parks";
 
 export default function Index() {
-  const allParks = parkBank.destinations.flatMap((destination) => destination.parks);
-  const [parkList, setParkList] = useState(allParks)
+  const [allParks, setAllParks] = useState<ParkData[]>([])
   const [inputText, onChangeText] = useState('')
+  const [favorites, setFavorites] = useState<string[]>([])
 
-  const filterParks = (text: string) => {
-    onChangeText(text)
-    let filteredParks = allParks.filter(park => park.name.toLowerCase().replace(/\s+/g, '').includes(text.toLowerCase().replace(/\s+/g, '')))
-    setParkList(filteredParks)
+  useEffect(() => {
+    getAllParks().then(setAllParks)
+  }, [])
+
+  useFocusEffect(
+    useCallback(() => {
+      getFavorites().then(setFavorites)
+    }, [])
+  );
+
+  const onToggleFavorite = (id: string) => {
+    toggleFavorite(id).then(setFavorites)
   }
 
+  const parkList = allParks.filter(park => park.name.toLowerCase().replace(/\s+/g, '').includes(inputText.toLowerCase().replace(/\s+/g, '')))
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} onChangeText={filterParks} value={inputText} placeholder="Search" placeholderTextColor="gray" autoCorrect={false} returnKeyType="search" />
+        <TextInput style={styles.input} onChangeText={onChangeText} value={inputText} placeholder="Search" placeholderTextColor="gray" autoCorrect={false} returnKeyType="search" />
       </View>
       <FlatList
         data={parkList}
         keyExtractor={(park) => park.id}
         renderItem={({ item }) => (
-          <Park parkName={item.name} />
+          <Park parkName={item.name} favorited={favorites.includes(item.id)} onToggleFavorite={() => onToggleFavorite(item.id)}/>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

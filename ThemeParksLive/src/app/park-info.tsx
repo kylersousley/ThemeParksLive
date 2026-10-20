@@ -5,11 +5,12 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Ride from "@/components/Ride"
 import ParkTitle from "@/components/ParkTitle"
 import { parkBank, seaWorldOrlandoRides, cedarPointRides } from "@/park-bank"
+import { RideData } from "@/api/rides";
 
 export default function Index() {
   const allParks = parkBank.destinations.flatMap((destination) => destination.parks);
-  const { park } = useLocalSearchParams();
-  let chosenPark = null
+  const { park } = useLocalSearchParams<{ park: string }>();
+  let chosenPark: RideData[] | null = null
   if (park === "SeaWorld Orlando") {
     chosenPark = seaWorldOrlandoRides
   }
@@ -26,7 +27,7 @@ export default function Index() {
           data={chosenPark}
           keyExtractor={(ride) => ride.id}
           renderItem={({ item }) => (
-            <Ride rideName={item.name} status={item.status} waitTime={item.queue['STANDBY']['waitTime']} />
+            <Ride rideName={item.name} status={item.status} waitTime={item.queue.STANDBY?.waitTime} />
           )}
         />
       </SafeAreaView>

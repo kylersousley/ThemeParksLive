@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text } from 'react-native';
 
 type Props = {
-    parkName: String;
+    parkName: string;
 };
 
 

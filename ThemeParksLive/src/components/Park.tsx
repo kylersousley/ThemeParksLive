@@ -1,14 +1,19 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import IconButton from "@/components/IconButton";
+import FavoriteButton from './FavoritedButton';
 import { useRouter, router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
 type Props = {
-    parkName: String;
-    parkCompany: String; 
+    parkName: string;
+    favorited: boolean;
+    onToggleFavorite: () => void; 
 };
 
-export default function Park({parkName, parkCompany}: Props) {
+export default function Park({parkName, favorited, onToggleFavorite}: Props) {
+
+
+
     const router = useRouter();
     const sendData = () => {
     Haptics.selectionAsync()
@@ -17,15 +22,18 @@ export default function Park({parkName, parkCompany}: Props) {
       params: { park: parkName }
     });
     };
+
     return (
-        <View style={styles.parkContainer}>
-            <View style={styles.labelContainer}>
-                <Text style={styles.text}>{parkName}</Text>
+        <Pressable onPress={sendData}>
+            <View style={styles.parkContainer}>
+                <View style={styles.labelContainer}>
+                    <Text style={styles.text}>{parkName}</Text>
+                </View>
+                <View style={styles.iconButtonContainer}>
+                    <FavoriteButton favorited={favorited} onPress={onToggleFavorite} />
+                </View>
             </View>
-            <View style={styles.iconButtonContainer}>
-                <IconButton icon="chevron-forward" onPress={sendData} />
-            </View>
-        </View>
+        </Pressable>
     )
 }
 
@@ -47,8 +55,8 @@ const styles = StyleSheet.create({
         paddingRight: 12,
     },
     iconButtonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
     text: {
         fontSize: 16,

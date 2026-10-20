@@ -1,12 +1,12 @@
 import { StyleSheet, View, Text } from 'react-native';
 
 type Props = {
-    rideName: String;
-    waitTime: String;
-    status: String;
+    rideName: string;
+    waitTime?: number | null;
+    status: string;
 };
 
-export default function Park({rideName, waitTime, status}: Props) {
+export default function Ride({rideName, waitTime, status}: Props) {
 
     return (
         <View style={styles.rideContainer}>
@@ -15,7 +15,7 @@ export default function Park({rideName, waitTime, status}: Props) {
                 <Text style={[styles.statusText, status === "CLOSED" && styles.statusTextClosed]}>{status}</Text>
             </View>
             <View style={styles.waitTimeContainer}>
-                <Text style={styles.waitTimeText}>{waitTime}</Text>
+                <Text>{waitTime}</Text>
                 {waitTime != null && <Text>minutes</Text>}
             </View>
         </View>
