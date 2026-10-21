@@ -8,9 +8,11 @@ import IconButton from "@/components/IconButton"
 import { getFavorites, toggleFavorite } from "@/storage/favoriteStorage";
 import { getAllParks, ParkData } from "@/api/parks";
 import EmptyState from "@/components/EmptyState";
+import { getParkPhotos, ParkPhoto } from "@/storage/photoStorage";
 
 export default function Favorites() {
   const [allParks, setAllParks] = useState<ParkData[]>([])
+  const [parkPhotos, setParkPhotos] = useState<ParkPhoto[]>([])
   const [favorites, setFavorites] = useState<string[]>([])
 
   useEffect(() => {
@@ -20,6 +22,7 @@ export default function Favorites() {
   useFocusEffect(
     useCallback(() => {
       getFavorites().then(setFavorites)
+      getParkPhotos().then(setParkPhotos)
     }, [])
   );
 
@@ -38,7 +41,7 @@ export default function Favorites() {
           <EmptyState icon="star" title="You have no favorites yet!" message="Tap the star on any park to favorite it." />
         }
         renderItem={({ item }) => (
-          <Park parkName={item.name} favorited onToggleFavorite={() => onToggleFavorite(item.id)} />
+          <Park parkId={item.id} parkName={item.name} image={parkPhotos.find((photo) => photo.id === item.id)?.uri ?? null} favorited onToggleFavorite={() => onToggleFavorite(item.id)} />
         )}
       />
     </View>

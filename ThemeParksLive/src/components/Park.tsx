@@ -3,29 +3,32 @@ import IconButton from "@/components/IconButton";
 import FavoriteButton from './FavoritedButton';
 import { useRouter, router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useState } from 'react';
+import Photo from './Photo';
 
 type Props = {
+    parkId: string;
     parkName: string;
     favorited: boolean;
-    onToggleFavorite: () => void; 
+    image: string | null;
+    onToggleFavorite: () => void;
 };
 
-export default function Park({parkName, favorited, onToggleFavorite}: Props) {
-
-
+export default function Park({parkId, parkName, favorited, image, onToggleFavorite}: Props) {
 
     const router = useRouter();
     const sendData = () => {
     Haptics.selectionAsync()
     router.push({
       pathname: '/park-info',
-      params: { park: parkName }
+      params: { id: parkId }
     });
     };
 
     return (
         <Pressable onPress={sendData}>
             <View style={styles.parkContainer}>
+                <Photo image={image} />
                 <View style={styles.labelContainer}>
                     <Text style={styles.text}>{parkName}</Text>
                 </View>
@@ -41,6 +44,7 @@ const styles = StyleSheet.create({
     parkContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        gap: 12,
         justifyContent: 'space-between',
         borderBottomWidth: 1,
         borderTopWidth: 1,

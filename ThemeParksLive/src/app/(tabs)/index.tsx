@@ -6,9 +6,11 @@ import { parkBank } from "@/park-bank"
 import { getFavorites, saveFavorite, toggleFavorite } from '@/storage/favoriteStorage';
 import { useFocusEffect } from "expo-router";
 import { getAllParks, ParkData } from "@/api/parks";
+import { getParkPhotos, ParkPhoto } from "@/storage/photoStorage";
 
 export default function Index() {
   const [allParks, setAllParks] = useState<ParkData[]>([])
+  const [parkPhotos, setParkPhotos] = useState<ParkPhoto[]>([])
   const [inputText, onChangeText] = useState('')
   const [favorites, setFavorites] = useState<string[]>([])
 
@@ -19,6 +21,7 @@ export default function Index() {
   useFocusEffect(
     useCallback(() => {
       getFavorites().then(setFavorites)
+      getParkPhotos().then(setParkPhotos)
     }, [])
   );
 
@@ -37,7 +40,7 @@ export default function Index() {
         data={parkList}
         keyExtractor={(park) => park.id}
         renderItem={({ item }) => (
-          <Park parkName={item.name} favorited={favorites.includes(item.id)} onToggleFavorite={() => onToggleFavorite(item.id)}/>
+          <Park parkId={item.id} parkName={item.name} image={parkPhotos.find((photo) => photo.id === item.id)?.uri ?? null} favorited={favorites.includes(item.id)} onToggleFavorite={() => onToggleFavorite(item.id)}/>
         )}
       />
     </View>

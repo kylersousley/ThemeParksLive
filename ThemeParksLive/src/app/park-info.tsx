@@ -9,20 +9,21 @@ import { RideData } from "@/api/rides";
 
 export default function Index() {
   const allParks = parkBank.destinations.flatMap((destination) => destination.parks);
-  const { park } = useLocalSearchParams<{ park: string }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const park = allParks.find((p) => p.id === id);
   let chosenPark: RideData[] | null = null
-  if (park === "SeaWorld Orlando") {
+  if (park?.name === "SeaWorld Orlando") {
     chosenPark = seaWorldOrlandoRides
   }
 
-  if (park === "Cedar Point") {
+  if (park?.name === "Cedar Point") {
     chosenPark = cedarPointRides
   }
 
-  if (chosenPark) {
+  if (park && chosenPark) {
     return (
       <SafeAreaView style={styles.container}>
-        <ParkTitle parkName={park} />
+        <ParkTitle parkID={park.id} parkName={park.name} />
         <FlatList
           data={chosenPark}
           keyExtractor={(ride) => ride.id}
