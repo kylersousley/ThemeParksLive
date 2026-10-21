@@ -1,9 +1,8 @@
-import { Text, View, StyleSheet, FlatList, SafeAreaView, TextInput } from "react-native";
+import { View, StyleSheet, FlatList, TextInput } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 
 import Park from "@/components/Park"
-import { parkBank } from "@/park-bank"
-import { getFavorites, saveFavorite, toggleFavorite } from '@/storage/favoriteStorage';
+import { getFavorites, toggleFavorite } from '@/storage/favoriteStorage';
 import { useFocusEffect } from "expo-router";
 import { getAllParks, ParkData } from "@/api/parks";
 import { getParkPhotos, ParkPhoto } from "@/storage/photoStorage";

@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, FlatList, SafeAreaView } from "react-native";
+import { Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { useLocalSearchParams } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 

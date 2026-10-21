@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, FlatList, SafeAreaView, TextInput } from "react-native";
+import { Text, StyleSheet, SafeAreaView } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function Index() {

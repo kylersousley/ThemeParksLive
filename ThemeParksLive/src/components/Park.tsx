@@ -1,9 +1,7 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native';
-import IconButton from "@/components/IconButton";
 import FavoriteButton from './FavoritedButton';
-import { useRouter, router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import { useState } from 'react';
 import Photo from './Photo';
 
 type Props = {

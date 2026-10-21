@@ -1,10 +1,8 @@
-import { Text, View, StyleSheet, FlatList, SafeAreaView, TextInput } from "react-native";
-import { useRouter, router, useFocusEffect } from 'expo-router';
+import { View, StyleSheet, FlatList } from "react-native";
+import { useFocusEffect } from 'expo-router';
 import {useCallback, useEffect, useState} from "react";
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 import Park from "@/components/Park"
-import IconButton from "@/components/IconButton"
 import { getFavorites, toggleFavorite } from "@/storage/favoriteStorage";
 import { getAllParks, ParkData } from "@/api/parks";
 import EmptyState from "@/components/EmptyState";
