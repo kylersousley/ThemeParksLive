@@ -6,6 +6,10 @@
 1. **Tabs**
 2. **Haptics**
 
+## Types of Data Stored
+1. Favorites
+2. User selected photos on individual park list rows
+
 ## HIG and Material Design Implementation
 In both HIGS and Material Design, they say the hitbox size of buttons should about 44-48px. I imeplemented this with my star icon buttons used for favorites, in which I increased their hitbox size to 48px (the icon itself is 26px with 4px padding and a hitslop of 7). I also implemented this with the camera button found in the park info pages and the custom button components used for theme selection.
 (https://developer.apple.com/design/human-interface-guidelines/buttons)
