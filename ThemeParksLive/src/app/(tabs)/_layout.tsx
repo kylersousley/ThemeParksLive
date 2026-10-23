@@ -1,14 +1,15 @@
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { Platform, DynamicColorIOS } from 'react-native';
 import { useTheme } from '@/contexts/ThemeContext';
+import { themes } from '@/colors';
 
 const isAndroid = Platform.OS === 'android';
 
 export default function TabLayout() {
-    const { colors } = useTheme()
+    const { colors, themeName } = useTheme()
 
     const selectedColor = Platform.OS === 'ios'
-        ? DynamicColorIOS({ light: '#395B64', dark: '#A5C9CA' })
+        ? DynamicColorIOS({ light: themes[themeName].schemes.light.primary, dark: themes[themeName].schemes.dark.primary })
         : colors.onSecondaryContainer;
     const unselectedColor = colors.onSurfaceVariant;
 

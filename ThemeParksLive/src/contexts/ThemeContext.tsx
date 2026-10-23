@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, ReactNode, useContext } from "react";
 import { ThemeName, themes } from "@/colors";
 
-const DEFAULT_THEME = {colors: themes.blue.schemes.dark, themeName: 'blue', changeTheme: (name: ThemeName) => {}}
+const DEFAULT_THEME = {colors: themes.blue.schemes.dark, themeName: 'blue' as ThemeName, changeTheme: (name: ThemeName) => {}}
 const ThemeContext = createContext(DEFAULT_THEME)
 
 const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
