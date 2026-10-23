@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text } from 'react-native';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
     rideName: string;
@@ -7,16 +8,17 @@ type Props = {
 };
 
 export default function Ride({rideName, waitTime, status}: Props) {
+    const { colors } = useTheme()
 
     return (
-        <View style={styles.rideContainer}>
+        <View style={[styles.rideContainer, { backgroundColor: colors.surfaceContainer }]}>
             <View style={styles.labelContainer}>
-                <Text style={styles.nameText}>{rideName}</Text>
-                <Text style={[styles.statusText, status === "CLOSED" && styles.statusTextClosed]}>{status}</Text>
+                <Text style={[styles.nameText, { color: colors.onSurface }]}>{rideName}</Text>
+                <Text style={[styles.statusText, status === "CLOSED" && [styles.statusTextClosed, { color: colors.error }]]}>{status}</Text>
             </View>
             <View style={styles.waitTimeContainer}>
-                <Text>{waitTime}</Text>
-                {waitTime != null && <Text>minutes</Text>}
+                <Text style={{ color: colors.secondary }}>{waitTime}</Text>
+                {waitTime != null && <Text style={{ color: colors.secondary }}>minutes</Text>}
             </View>
         </View>
     )
@@ -27,13 +29,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderTopWidth: 1,
-        borderColor: '#395B64',
-        borderStyle: 'solid',
-        width: '100%',
-        padding: 40,
-        paddingLeft: 10,
+        borderRadius: 12,
+        marginVertical: 16,
+        marginHorizontal: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
     },
     labelContainer: {
         flex: 1,
@@ -46,14 +46,12 @@ const styles = StyleSheet.create({
     },
     nameText: {
         fontSize: 20,
-        color: '#395B64',
     },
     statusText: {
         fontSize: 14,
-        color: '#115901',
+        color: '#B2FFAB',
     },
     statusTextClosed: {
         fontSize: 14,
-        color: '#850101',
     }
 });

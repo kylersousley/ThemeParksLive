@@ -1,28 +1,20 @@
-import { Text, StyleSheet, SafeAreaView } from "react-native";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { View, StyleSheet } from "react-native";
+
+import EmptyState from "@/components/EmptyState";
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function Index() {
+  const { colors } = useTheme()
 
   return (
-    <SafeAreaView style={styles.container}>
-        <Ionicons name={"construct-sharp"} color={"#395B64"} size={72} />
-        <Text style={styles.text}>Pardon my dust, this page is currently under consdtruction!</Text>
-    </SafeAreaView>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
+        <EmptyState icon="construct-sharp" title="Under construction" message="Pardon my dust, this page is currently under construction!" />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: "#E7F6F2",
-    gap: 50,
   },
-  text: {
-    textAlign: 'center',
-    fontSize: 16,
-    padding: 10,
-    borderRadius: 8,
-  }
 });

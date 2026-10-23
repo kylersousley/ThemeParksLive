@@ -3,6 +3,7 @@ import FavoriteButton from './FavoritedButton';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import Photo from './Photo';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
     parkId: string;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export default function Park({parkId, parkName, favorited, image, onToggleFavorite}: Props) {
+    const { colors } = useTheme()
 
     const router = useRouter();
     const sendData = () => {
@@ -25,10 +27,10 @@ export default function Park({parkId, parkName, favorited, image, onToggleFavori
 
     return (
         <Pressable onPress={sendData}>
-            <View style={styles.parkContainer}>
+            <View style={[styles.parkContainer, { backgroundColor: colors.surfaceContainer }]}>
                 <Photo image={image} />
                 <View style={styles.labelContainer}>
-                    <Text style={styles.text}>{parkName}</Text>
+                    <Text style={[styles.text, { color: colors.onSurface }]}>{parkName}</Text>
                 </View>
                 <View style={styles.iconButtonContainer}>
                     <FavoriteButton favorited={favorited} onPress={onToggleFavorite} />
@@ -44,13 +46,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 12,
         justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderTopWidth: 1,
-        borderColor: '#395B64',
-        borderStyle: 'solid',
-        width: '100%',
-        padding: 40,
-        paddingLeft: 10,
+        marginHorizontal: 16,
+        marginVertical: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        borderRadius: 12,
     },
     labelContainer: {
         flex: 1,
@@ -62,6 +62,5 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 16,
-        color: '#395B64',
     },
 });

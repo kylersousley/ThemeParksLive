@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
     icon: keyof typeof Ionicons.glyphMap;
@@ -8,14 +9,15 @@ type Props = {
 };
 
 export default function EmptyState({ icon, title, message}: Props) {
+    const { colors } = useTheme()
 
     return (
         <View style={styles.container}>
-            <View style={styles.iconCircle}>
-                <Ionicons name={icon} size={40} color="black" />
+            <View style={[styles.iconCircle, { backgroundColor: colors.primaryContainer }]}>
+                <Ionicons name={icon} size={40} color={colors.onPrimaryContainer} />
             </View>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.message}>{message}</Text>
+            <Text style={[styles.title, { color: colors.onSurface }]}>{title}</Text>
+            <Text style={[styles.message, { color: colors.onSurfaceVariant }]}>{message}</Text>
         </View>
     );
 }

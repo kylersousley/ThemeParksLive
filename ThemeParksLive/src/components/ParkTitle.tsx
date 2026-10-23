@@ -4,6 +4,7 @@ import Photo from './Photo';
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { getParkPhoto, setParkPhoto } from '@/storage/photoStorage';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
     parkID: string;
@@ -12,6 +13,7 @@ type Props = {
 
 
 export default function ParkTitle({ parkID, parkName }: Props) {
+    const { colors } = useTheme()
     const [image, setImage] = useState<string | null>(null)
 
     useEffect(() => {
@@ -34,20 +36,20 @@ export default function ParkTitle({ parkID, parkName }: Props) {
 
 
     return (
-        <View style={styles.parkTitleContainer}>
+        <View style={[styles.parkTitleContainer, { backgroundColor: colors.primaryContainer }]}>
             <View style={styles.photoContainer}>
                 <Photo image={image} size={88} />
                 <Pressable
                     onPress={pickImage}
                     hitSlop={6}
-                    style={({ pressed }) => [styles.cameraButton, pressed && styles.pressed]}
+                    style={({ pressed }) => [styles.cameraButton, { backgroundColor: colors.onPrimaryContainer, borderColor: colors.primaryContainer }, pressed && styles.pressed]}
                 >
                     <Ionicons name="camera" size={16} color="#2C3333" />
                 </Pressable>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.parkName}>{parkName}</Text>
-                <Text style={styles.subtitle}>Rides and Attractions</Text>
+                <Text style={[styles.parkName, { color: colors.onPrimaryContainer }]}>{parkName}</Text>
+                <Text style={[styles.subtitle, { color: colors.onSurfaceVariant }]}>Rides and Attractions</Text>
             </View>
         </View>
     )
@@ -58,9 +60,8 @@ const styles = StyleSheet.create({
     parkTitleContainer: {
         flexDirection: 'row',
         gap: 16,
-        backgroundColor: "#395B64",
         alignItems: 'center',
-        width: '100%',
+        borderRadius: 12,
         paddingHorizontal: 16,
         paddingVertical: 20,
     },
@@ -75,11 +76,9 @@ const styles = StyleSheet.create({
     parkName: {
         fontSize: 24,
         fontWeight: '700',
-        color: '#E7F6F2'
     },
     subtitle: {
         fontSize: 15,
-        color: '#A5C9CA'
     },
     cameraButton: {
         position: 'absolute',
@@ -88,9 +87,7 @@ const styles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: 16,
-        backgroundColor: '#E7F6F2',
         borderWidth: 2,
-        borderColor: '#395B64',
         alignItems: 'center',
         justifyContent: 'center',
     },

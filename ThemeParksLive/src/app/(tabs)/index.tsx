@@ -6,8 +6,10 @@ import { getFavorites, toggleFavorite } from '@/storage/favoriteStorage';
 import { useFocusEffect } from "expo-router";
 import { getAllParks, ParkData } from "@/api/parks";
 import { getParkPhotos, ParkPhoto } from "@/storage/photoStorage";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Index() {
+  const { colors } = useTheme()
   const [allParks, setAllParks] = useState<ParkData[]>([])
   const [parkPhotos, setParkPhotos] = useState<ParkPhoto[]>([])
   const [inputText, onChangeText] = useState('')
@@ -31,9 +33,9 @@ export default function Index() {
   const parkList = allParks.filter(park => park.name.toLowerCase().replace(/\s+/g, '').includes(inputText.toLowerCase().replace(/\s+/g, '')))
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} onChangeText={onChangeText} value={inputText} placeholder="Search" placeholderTextColor="gray" autoCorrect={false} returnKeyType="search" />
+        <TextInput style={[styles.input, { backgroundColor: colors.surfaceContainerHigh, color: colors.onSurface }]} onChangeText={onChangeText} value={inputText} placeholder="Search" placeholderTextColor={colors.onSurfaceVariant} autoCorrect={false} returnKeyType="search" />
       </View>
       <FlatList
         data={parkList}
@@ -49,19 +51,14 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E7F6F2",
   },
   input: {
-    margin: 8,
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: "#E7F6F2",
-    paddingLeft: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    borderRadius: 28,
+    height: 56,
+    paddingHorizontal: 16,
   },
   inputContainer: {
-    borderWidth: 1,
-    backgroundColor: "#395B64"
   }
 });

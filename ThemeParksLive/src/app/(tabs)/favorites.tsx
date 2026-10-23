@@ -7,8 +7,10 @@ import { getFavorites, toggleFavorite } from "@/storage/favoriteStorage";
 import { getAllParks, ParkData } from "@/api/parks";
 import EmptyState from "@/components/EmptyState";
 import { getParkPhotos, ParkPhoto } from "@/storage/photoStorage";
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function Favorites() {
+  const { colors } = useTheme()
   const [allParks, setAllParks] = useState<ParkData[]>([])
   const [parkPhotos, setParkPhotos] = useState<ParkPhoto[]>([])
   const [favorites, setFavorites] = useState<string[]>([])
@@ -31,7 +33,7 @@ export default function Favorites() {
   const favoriteParks = allParks.filter((park) => favorites.includes(park.id))
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <FlatList 
         data={favoriteParks}
         keyExtractor={(park) => park.id}
@@ -50,7 +52,6 @@ export default function Favorites() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E7F6F2",
   },
   text: {
     textAlign: 'center',
