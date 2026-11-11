@@ -4,33 +4,31 @@ import { useLocalSearchParams } from 'expo-router';
 import Ride from "@/components/Ride"
 import ParkTitle from "@/components/ParkTitle"
 import EmptyState from "@/components/EmptyState"
-import { parkBank, seaWorldOrlandoRides, cedarPointRides } from "@/park-bank"
-import { RideData } from "@/api/rides";
+import { getRidesByParkId, RideData } from "@/api/rides";
 import { useTheme } from '@/contexts/ThemeContext';
+import { getParkById, ParkData } from "@/api/parks";
+import { useEffect, useState } from "react";
 
 export default function Index() {
   const { colors } = useTheme()
-  const allParks = parkBank.destinations.flatMap((destination) => destination.parks);
   const { id } = useLocalSearchParams<{ id: string }>();
-  const park = allParks.find((p) => p.id === id);
-  let chosenPark: RideData[] | null = null
-  if (park?.name === "SeaWorld Orlando") {
-    chosenPark = seaWorldOrlandoRides
-  }
+  const [park, setPark] = useState<ParkData>()
+  const [parkRides, setParkRides] = useState<RideData[]>([])
 
-  if (park?.name === "Cedar Point") {
-    chosenPark = cedarPointRides
-  }
+  useEffect(() => {
+    getParkById(id).then(setPark)
+    getRidesByParkId(id).then(setParkRides)
+  }, [id])
 
-  if (park && chosenPark) {
+  if (park) {
     return (
       <View style={[styles.container, { backgroundColor: colors.surface }]}>
         <ParkTitle parkID={park.id} parkName={park.name} />
         <FlatList
-          data={chosenPark}
+          data={parkRides}
           keyExtractor={(ride) => ride.id}
           renderItem={({ item }) => (
-            <Ride rideName={item.name} status={item.status} waitTime={item.queue.STANDBY?.waitTime} />
+            <Ride rideName={item.name} status={item.status} waitTime={item.queue?.STANDBY?.waitTime} />
           )}
         />
       </View>

@@ -1,4 +1,4 @@
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
+import { NativeTabs } from 'expo-router/native-tabs';
 import { Platform, DynamicColorIOS } from 'react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 import { themes } from '@/colors';

@@ -1,16 +1,26 @@
-import { parkBank } from "@/park-bank";
-
 export type ParkData = {
     id: string;
     name: string;
 }
 
-// Once I implement the API, these functions will call the api instead of using parkBank
+type DestinationData = {
+    id: string;
+    name: string;
+    parks: ParkData[];
+}
 
-export async function getAllParks() {
-    return parkBank.destinations.flatMap((destination) => destination.parks)
+const BASE_URL = "https://api.themeparks.wiki/v1"
+
+export async function getAllParks(): Promise<ParkData[]> {
+    const response = await fetch(`${BASE_URL}/destinations`)
+    if (!response.ok) {
+        throw new Error(`Failed to load parks: ${response.status}`)
+    }
+    const data: { destinations: DestinationData[] } = await response.json()
+    return data.destinations.flatMap((destination) => destination.parks)
 }
 
 export async function getParkById(id: string) {
-    return parkBank.destinations.flatMap((destination) => destination.parks).find((park) => park.id === id)
+    const parks = await getAllParks()
+    return parks.find((park) => park.id === id)
 }

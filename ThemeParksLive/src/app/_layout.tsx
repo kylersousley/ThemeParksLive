@@ -1,4 +1,4 @@
-import { router, Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { ThemeContextProvider, useTheme } from '@/contexts/ThemeContext';
@@ -14,6 +14,7 @@ export default function RootLayout() {
 
 function AppStack() {
   const { colors } = useTheme();
+  const router = useRouter();
   const title = { title: 'Theme Parks Live' }
 
   return (
@@ -32,12 +33,22 @@ function AppStack() {
           <IconButton icon="settings-outline" color={colors.onSurface} onPress={() => router.push("/change-theme")} />
         </View>
       ),
+      unstable_headerRightItems: () => [
+        {
+          type: 'button',
+          label: 'Theme settings',
+          icon: { type: 'sfSymbol', name: 'gearshape' },
+          tintColor: colors.onSurface,
+          hidesSharedBackground: true,
+          onPress: () => router.push("/change-theme"),
+        },
+      ],
       headerTintColor: colors.onSurface,
       headerShadowVisible: false
     }}>
       <Stack.Screen name="(tabs)" options={title} />
       <Stack.Screen name="park-info" options={title} />
-      <Stack.Screen name="change-theme" options={{ title: 'Theme', headerRight: () => null }} />
+      <Stack.Screen name="change-theme" options={{ title: 'Theme', headerRight: () => null, unstable_headerRightItems: () => [] }} />
     </Stack>
   )
 }
