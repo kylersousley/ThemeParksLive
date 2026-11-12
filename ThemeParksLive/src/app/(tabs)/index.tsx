@@ -7,6 +7,8 @@ import { useFocusEffect } from "expo-router";
 import { getAllParks, ParkData } from "@/api/parks";
 import { getParkPhotos, ParkPhoto } from "@/storage/photoStorage";
 import { useTheme } from "@/contexts/ThemeContext";
+import LoadingState from "@/components/LoadingState";
+import EmptyState from "@/components/EmptyState";
 
 export default function Index() {
   const { colors } = useTheme()
@@ -14,9 +16,14 @@ export default function Index() {
   const [parkPhotos, setParkPhotos] = useState<ParkPhoto[]>([])
   const [inputText, onChangeText] = useState('')
   const [favorites, setFavorites] = useState<string[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    getAllParks().then(setAllParks)
+    getAllParks()
+      .then(setAllParks)
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false))
   }, [])
 
   useFocusEffect(
@@ -37,13 +44,22 @@ export default function Index() {
       <View style={styles.inputContainer}>
         <TextInput style={[styles.input, { backgroundColor: colors.surfaceContainerHigh, color: colors.onSurface }]} onChangeText={onChangeText} value={inputText} placeholder="Search" placeholderTextColor={colors.onSurfaceVariant} autoCorrect={false} returnKeyType="search" />
       </View>
-      <FlatList
-        data={parkList}
-        keyExtractor={(park) => park.id}
-        renderItem={({ item }) => (
-          <Park parkId={item.id} parkName={item.name} image={parkPhotos.find((photo) => photo.id === item.id)?.uri ?? null} favorited={favorites.includes(item.id)} onToggleFavorite={() => onToggleFavorite(item.id)}/>
-        )}
-      />
+      { loading ? (
+        <LoadingState />
+      ) : error ? (
+        <EmptyState icon="alert-circle-outline" title="Couldn't load parks" message={error} />
+      ) : (
+        <FlatList
+          data={parkList}
+          keyExtractor={(park) => park.id}
+          renderItem={({ item }) => (
+            <Park parkId={item.id} parkName={item.name} image={parkPhotos.find((photo) => photo.id === item.id)?.uri ?? null} favorited={favorites.includes(item.id)} onToggleFavorite={() => onToggleFavorite(item.id)}/>
+          )}
+          ListEmptyComponent={
+            <EmptyState icon="search-outline" title="No parks found" message="Try a different name or check your spelling" />
+          }
+        />        
+      )}
     </View>
   );
 }
