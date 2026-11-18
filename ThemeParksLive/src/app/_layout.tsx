@@ -1,14 +1,17 @@
 import { Stack, useRouter } from "expo-router";
 import { View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeContextProvider, useTheme } from '@/contexts/ThemeContext';
 import IconButton from "@/components/IconButton";
 
 export default function RootLayout() {
   return (
-    <ThemeContextProvider>
-      <AppStack />
-    </ThemeContextProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeContextProvider>
+        <AppStack />
+      </ThemeContextProvider>
+    </GestureHandlerRootView>
   )
 }
 
