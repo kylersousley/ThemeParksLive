@@ -47,6 +47,7 @@ export default function Favorites() {
       ) : (
         <FlatList 
           data={favoriteParks}
+          contentInsetAdjustmentBehavior='automatic'
           keyExtractor={(park) => park.id}
           ListEmptyComponent={
             <EmptyState icon="star" title="You have no favorites yet!" message="Tap the star on any park to favorite it." />

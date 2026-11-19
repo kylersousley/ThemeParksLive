@@ -1,7 +1,7 @@
 import { useTheme } from '@/contexts/ThemeContext';
-import React, {memo, useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 import {ListRenderItemInfo, Pressable, StyleSheet, Text, View} from 'react-native';
-import { TopRide } from '@/storage/topTenStorage';
+import { TopRide, Slot, getTopTen, saveTopTen } from '@/storage/topTenStorage';
 
 import ReorderableList, {
   ReorderableListReorderEvent,
@@ -9,22 +9,17 @@ import ReorderableList, {
   useReorderableDrag,
   useIsActive,
 } from 'react-native-reorderable-list';
+import { useFocusEffect } from 'expo-router';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 type CardProps = {
   id: string;
-  name: string;
+  ride: TopRide | null;
   rank: number;
 }
 
-const seedData: TopRide[] = [
-  { id: "r1", name: "Cannibal" },
-  { id: "r2", name: "Wicked" },
-  { id: "r3", name: "Primordial" },
-  { id: "r4", name: "J3 Grand Prix" },
-  { id: "r5", name: "Bombora" },  
-]
-
-const Card: React.FC<CardProps> = memo(({id, name, rank}) => {
+const Card: React.FC<CardProps> = memo(({id, ride, rank}) => {
   const drag = useReorderableDrag();
   const { colors } = useTheme()
   const isActive = useIsActive();
@@ -53,26 +48,38 @@ const Card: React.FC<CardProps> = memo(({id, name, rank}) => {
       <Text
         style={[
           styles.text,
+          styles.nameText,
           isActive
             ? { color: colors.onPrimaryContainer }
-            : { color: colors.onSurface }
+            : ride 
+            ? { color: colors.onSurface }
+            : { color: colors.onSurfaceVariant }
         ]}
       >
-        {name}
+        {ride ? ride.name : "Empty - tap edit to add a ride"}
       </Text>
+      <Ionicons name="reorder-three-outline" size={26} color={colors.onSurfaceVariant} />
     </Pressable>
   );
 });
 
 const TopTen = () => {
-  const [data, setData] = useState(seedData);
+  const [data, setData] = useState<Slot[]>([]);
   const { colors } = useTheme()
 
+  useFocusEffect(
+    useCallback(() => {
+      getTopTen().then(setData)
+    }, [])
+  );
+
   const handleReorder = ({from, to}: ReorderableListReorderEvent) => {
-    setData(value => reorderItems(value, from, to));
+    const reorderedList = reorderItems(data, from, to)
+    setData(reorderedList)
+    saveTopTen(reorderedList)
   };
 
-  const renderItem = ({item, index}: ListRenderItemInfo<TopRide>) => (
+  const renderItem = ({item, index}: ListRenderItemInfo<Slot>) => (
     <Card {...item} rank={index + 1} />
   );
 
@@ -86,6 +93,7 @@ const TopTen = () => {
         // IMPORTANT: Do not use the current index as key.
         // Always use a stable and unique key for each item.
         keyExtractor={item => item.id}
+        contentInsetAdjustmentBehavior='automatic'
       />
     </View>
   );
@@ -115,6 +123,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontVariant: ['tabular-nums'],
   },
+  nameText: {
+    flex: 1,
+  }
 });
 
 export default TopTen;

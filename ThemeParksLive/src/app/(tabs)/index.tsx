@@ -51,6 +51,7 @@ export default function Index() {
       ) : (
         <FlatList
           data={parkList}
+          contentInsetAdjustmentBehavior='automatic'
           keyExtractor={(park) => park.id}
           renderItem={({ item }) => (
             <Park parkId={item.id} parkName={item.name} image={parkPhotos.find((photo) => photo.id === item.id)?.uri ?? null} favorited={favorites.includes(item.id)} onToggleFavorite={() => onToggleFavorite(item.id)}/>
