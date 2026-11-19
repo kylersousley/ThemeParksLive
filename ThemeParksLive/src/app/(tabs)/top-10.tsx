@@ -2,6 +2,9 @@ import { useTheme } from '@/contexts/ThemeContext';
 import React, {memo, useCallback, useState} from 'react';
 import {ListRenderItemInfo, Pressable, StyleSheet, Text, View} from 'react-native';
 import { TopRide, Slot, getTopTen, saveTopTen } from '@/storage/topTenStorage';
+import * as Haptics from 'expo-haptics';
+import { useRouter } from 'expo-router';
+
 
 import ReorderableList, {
   ReorderableListReorderEvent,
@@ -11,6 +14,7 @@ import ReorderableList, {
 } from 'react-native-reorderable-list';
 import { useFocusEffect } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import IconButton from '@/components/IconButton';
 
 
 type CardProps = {
@@ -23,6 +27,14 @@ const Card: React.FC<CardProps> = memo(({id, ride, rank}) => {
   const drag = useReorderableDrag();
   const { colors } = useTheme()
   const isActive = useIsActive();
+  const router = useRouter();
+  const sendData = () => {
+    Haptics.selectionAsync()
+    router.push({
+      pathname: '/pick-park',
+      params: { id: id }
+  });
+  };
 
   return (
     <Pressable
@@ -58,6 +70,7 @@ const Card: React.FC<CardProps> = memo(({id, ride, rank}) => {
       >
         {ride ? ride.name : "Empty - tap edit to add a ride"}
       </Text>
+      <IconButton icon="pencil" color={colors.onSurfaceVariant} onPress={sendData} />
       <Ionicons name="reorder-three-outline" size={26} color={colors.onSurfaceVariant} />
     </Pressable>
   );
