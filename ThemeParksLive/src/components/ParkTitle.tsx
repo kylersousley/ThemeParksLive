@@ -9,10 +9,11 @@ import { useTheme } from '@/contexts/ThemeContext';
 type Props = {
     parkID: string;
     parkName: string;
+    photo?: boolean;
 };
 
 
-export default function ParkTitle({ parkID, parkName }: Props) {
+export default function ParkTitle({ parkID, parkName, photo = true }: Props) {
     const { colors } = useTheme()
     const [image, setImage] = useState<string | null>(null)
 
@@ -37,6 +38,7 @@ export default function ParkTitle({ parkID, parkName }: Props) {
 
     return (
         <View style={[styles.parkTitleContainer, { backgroundColor: colors.primaryContainer }]}>
+            { photo ?
             <View style={styles.photoContainer}>
                 <Photo image={image} size={88} />
                 <Pressable
@@ -47,6 +49,7 @@ export default function ParkTitle({ parkID, parkName }: Props) {
                     <Ionicons name="camera" size={16} color="#2C3333" />
                 </Pressable>
             </View>
+            : <></> }
             <View style={styles.textContainer}>
                 <Text style={[styles.parkName, { color: colors.onPrimaryContainer }]}>{parkName}</Text>
                 <Text style={[styles.subtitle, { color: colors.onSurfaceVariant }]}>Rides and Attractions</Text>

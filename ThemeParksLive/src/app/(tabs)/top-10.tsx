@@ -32,7 +32,7 @@ const Card: React.FC<CardProps> = memo(({id, ride, rank}) => {
     Haptics.selectionAsync()
     router.push({
       pathname: '/pick-park',
-      params: { id: id }
+      params: { slotId: id }
   });
   };
 

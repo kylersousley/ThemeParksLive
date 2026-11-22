@@ -8,6 +8,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import LoadingState from "@/components/LoadingState";
 import EmptyState from "@/components/EmptyState";
 import PickerRow from "@/components/PickerRow";
+import { useRouter } from 'expo-router';
 
 export default function PickPark() {
   const { colors } = useTheme();
@@ -16,7 +17,8 @@ export default function PickPark() {
   const [inputText, onChangeText] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { slotId } = useLocalSearchParams<{ slotId: string }>();
+  const router = useRouter();
 
   useEffect(() => {
     getAllParks()
@@ -37,6 +39,13 @@ export default function PickPark() {
       .replace(/\s+/g, "")
       .includes(inputText.toLowerCase().replace(/\s+/g, "")),
   );
+
+  const sendData = (parkId: string) => {
+    router.push({
+      pathname: '/pick-ride',
+      params: { slotId: slotId, parkId: parkId }
+  });
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
@@ -76,7 +85,7 @@ export default function PickPark() {
               image={
                 parkPhotos.find((photo) => photo.id === item.id)?.uri ?? null
               }
-              onPress={() => {}}
+              onPress={() => sendData(item.id)}
             />
           )}
           ListEmptyComponent={

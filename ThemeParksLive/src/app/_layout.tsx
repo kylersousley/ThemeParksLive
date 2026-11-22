@@ -53,6 +53,7 @@ function AppStack() {
       <Stack.Screen name="park-info" options={title} />
       <Stack.Screen name="change-theme" options={{ title: 'Theme', headerRight: () => null, unstable_headerRightItems: () => [] }} />
       <Stack.Screen name="pick-park" options={{ title: 'Choose a park!' }} />
+      <Stack.Screen name="pick-ride" options={{ title: 'Choose a ride!' }} />
     </Stack>
   )
 }

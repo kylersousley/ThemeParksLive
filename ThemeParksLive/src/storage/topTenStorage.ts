@@ -22,3 +22,9 @@ export async function getTopTen(): Promise<Slot[]> {
 export async function saveTopTen(slots: Slot[]) {
     await AsyncStorage.setItem(TOP_TEN_KEY, JSON.stringify(slots))
 }
+
+export async function setSlotRide(slotId: string, ride: TopRide) {
+    const currentList = await getTopTen()
+    const newList = currentList.map((slot) => slot.id === slotId ? {...slot, ride} : slot)
+    await saveTopTen(newList)
+} 
